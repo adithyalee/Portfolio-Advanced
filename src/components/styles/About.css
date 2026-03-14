@@ -26,8 +26,17 @@
 .about-me p {
   font-size: 33px;
   font-weight: 600;
-  line-height: 36px;
+  line-height: 1.5;
   letter-spacing: 1px;
+}
+
+.about-me p a {
+  color: var(--accentColor);
+  transition: color var(--transitionFast), opacity var(--transitionFast);
+}
+
+.about-me p a:hover {
+  opacity: 0.9;
 }
 
 @media only screen and (min-width: 600px) {

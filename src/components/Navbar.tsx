@@ -1,47 +1,46 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import HoverLinks from "./HoverLinks";
-import { gsap } from "gsap";
-import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
+import { useSmoothScroll } from "../context/SmoothScrollContext";
 import "./styles/Navbar.css";
 
-gsap.registerPlugin(ScrollSmoother, ScrollTrigger);
-export let smoother: ScrollSmoother;
-
 const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+  const lenis = useSmoothScroll();
+
   useEffect(() => {
-    smoother = ScrollSmoother.create({
-      wrapper: "#smooth-wrapper",
-      content: "#smooth-content",
-      smooth: 1.7,
-      speed: 1.7,
-      effects: true,
-      autoResize: true,
-      ignoreMobileResize: true,
+    const st = ScrollTrigger.create({
+      trigger: "#smooth-content",
+      start: "top 80px",
+      onEnter: () => setScrolled(true),
+      onLeaveBack: () => setScrolled(false),
     });
-
-    smoother.scrollTop(0);
-    smoother.paused(true);
-
-    let links = document.querySelectorAll(".header ul a");
-    links.forEach((elem) => {
-      let element = elem as HTMLAnchorElement;
-      element.addEventListener("click", (e) => {
-        if (window.innerWidth > 1024) {
-          e.preventDefault();
-          let elem = e.currentTarget as HTMLAnchorElement;
-          let section = elem.getAttribute("data-href");
-          smoother.scrollTo(section, true, "top top");
-        }
-      });
-    });
-    window.addEventListener("resize", () => {
-      ScrollSmoother.refresh(true);
-    });
+    setScrolled(st?.isActive ?? false);
+    return () => st?.kill();
   }, []);
+
+  useEffect(() => {
+    if (!lenis) return;
+    const handler = (e: Event) => {
+      const target = (e.target as HTMLElement).closest("a[data-href]");
+      if (!target || window.innerWidth <= 1024) return;
+      e.preventDefault();
+      const section = (target as HTMLAnchorElement).getAttribute("data-href");
+      if (section) {
+        lenis.scrollTo(section, {
+          duration: 1.4,
+          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+          lerp: 0.08,
+        });
+      }
+    };
+    document.querySelector(".header ul")?.addEventListener("click", handler);
+    return () => document.querySelector(".header ul")?.removeEventListener("click", handler);
+  }, [lenis]);
+
   return (
     <>
-      <div className="header">
+      <div className={`header ${scrolled ? "header-scrolled" : ""}`}>
         <a href="/#" className="navbar-title" data-cursor="disable">
           AT
         </a>

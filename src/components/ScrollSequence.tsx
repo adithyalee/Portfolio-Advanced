@@ -13,7 +13,7 @@ const ScrollSequence: React.FC = () => {
     const { setLoading } = useLoading();
     const [images, setImages] = useState<HTMLImageElement[]>([]);
 
-    const frameCount = 120;
+    const frameCount = 192;
     const currentFrame = (index: number) => 
         `/ezgif-split/frame_${index.toString().padStart(3, '0')}_delay-0.066s.png`;
 
@@ -91,10 +91,10 @@ const ScrollSequence: React.FC = () => {
             snap: 'frame',
             ease: 'none',
             scrollTrigger: {
-                trigger: '#smooth-content', // Track the entire scrollable content
+                trigger: '#smooth-content',
                 start: 'top top',
                 end: 'bottom bottom',
-                scrub: 0.5,
+                scrub: 2.5,
             },
             onUpdate: () => render(Math.round(airpods.frame)),
         });

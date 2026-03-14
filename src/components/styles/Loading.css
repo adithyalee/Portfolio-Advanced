@@ -2,12 +2,12 @@
   position: fixed;
   width: 100vw;
   height: var(--vh);
-  /* background-image: linear-gradient(#cbb1ff, #d8c4ff); */
-  background-color: #e0f2f1;
+  background-color: var(--backgroundColor, #0a0e17);
   z-index: 999999999;
   display: flex;
   place-items: center;
   justify-content: center;
+  transition: opacity 0.6s var(--easeOut, ease-out);
 }
 
 .loading-button {
@@ -77,7 +77,7 @@
 }
 
 .loading-hover {
-  background-color: #2dd4bf;
+  background-color: var(--accentColor, #2dd4bf);
   width: 250px;
   height: 120px;
   position: absolute;

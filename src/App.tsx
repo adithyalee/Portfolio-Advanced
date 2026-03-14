@@ -1,21 +1,19 @@
 import { lazy, Suspense } from "react";
 import "./App.css";
-
-const CharacterModel = lazy(() => import("./components/Character"));
-const MainContainer = lazy(() => import("./components/MainContainer"));
+import { SmoothScrollProvider } from "./context/SmoothScrollContext";
 import { LoadingProvider } from "./context/LoadingProvider";
+
+const MainContainer = lazy(() => import("./components/MainContainer"));
 
 const App = () => {
   return (
-    <>
-      <LoadingProvider>
+    <LoadingProvider>
+      <SmoothScrollProvider>
         <Suspense>
-          <MainContainer>
-            {/* CharacterModel is replaced by ScrollSequence in Landing */}
-          </MainContainer>
+          <MainContainer />
         </Suspense>
-      </LoadingProvider>
-    </>
+      </SmoothScrollProvider>
+    </LoadingProvider>
   );
 };
 

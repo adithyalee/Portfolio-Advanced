@@ -43,8 +43,7 @@
   width: 450px;
   height: 33%;
   min-height: 50%;
-  transition: 0.5s;
-  /* border: 0.5px dashed rgba(255, 255, 255, 0.3); */
+  transition: min-height 0.6s var(--easeOut), padding 0.6s, transform var(--transitionMedium);
   position: relative;
   padding: 50px;
   box-sizing: border-box;
@@ -54,6 +53,7 @@
 .what-content-active {
   min-height: 67%;
   padding: 40px 50px;
+  transform: scale(1.02);
 }
 
 .what-noTouch:hover ~ .what-content,
@@ -235,9 +235,17 @@
   font-size: 13px;
   font-weight: 400;
   padding: 2px 7px;
-  background-color: rgba(255, 255, 255, 0.15);
-  border: 1px solid #ffffff50;
+  background-color: rgba(94, 234, 212, 0.1);
+  border: 1px solid rgba(94, 234, 212, 0.3);
   border-radius: 30px;
+  color: var(--accentColor);
+  transition: background-color var(--transitionFast), border-color var(--transitionFast), transform var(--transitionFast);
+}
+
+.what-tags:hover {
+  background-color: rgba(94, 234, 212, 0.2);
+  border-color: var(--accentColor);
+  transform: translateY(-1px);
 }
 @media only screen and (max-width: 1600px) {
   .what-box h2 {

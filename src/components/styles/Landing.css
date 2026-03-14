@@ -145,6 +145,11 @@
   position: absolute;
 }
 
+@keyframes backlight {
+  0% { opacity: 0; }
+  100% { opacity: 0.5; }
+}
+
 .character-loaded .character-rim {
   animation: backlight 3s forwards;
   animation-delay: 0.3s;
@@ -190,6 +195,11 @@
   line-height: 28px;
   font-weight: 500;
   font-family: "Geist", sans-serif;
+  background: linear-gradient(135deg, var(--textPrimary) 0%, var(--accentColor) 50%, var(--accentSecondary) 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 /* .landing-intro h1 span {

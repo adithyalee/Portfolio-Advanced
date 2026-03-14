@@ -28,6 +28,11 @@
 .contact-box {
   display: flex;
   flex-direction: column;
+  transition: transform var(--transitionMedium);
+}
+
+.contact-box:hover {
+  transform: translateY(-2px);
 }
 
 .contact-flex p {
@@ -37,7 +42,14 @@
 
 a.contact-social {
   font-size: 25px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--border);
+  transition: color var(--transitionFast), border-color var(--transitionFast), transform var(--transitionFast);
+}
+
+a.contact-social:hover {
+  color: var(--accentColor);
+  border-color: var(--accentColor);
+  transform: translateX(4px);
 }
 
 .contact-box h2 {

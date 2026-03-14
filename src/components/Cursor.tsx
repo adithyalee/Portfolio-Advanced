@@ -15,10 +15,10 @@ const Cursor = () => {
     });
     requestAnimationFrame(function loop() {
       if (!hover) {
-        const delay = 6;
+        const delay = 10;
         cursorPos.x += (mousePos.x - cursorPos.x) / delay;
         cursorPos.y += (mousePos.y - cursorPos.y) / delay;
-        gsap.to(cursor, { x: cursorPos.x, y: cursorPos.y, duration: 0.1 });
+        gsap.to(cursor, { x: cursorPos.x, y: cursorPos.y, duration: 0.15, ease: "power2.out" });
         // cursor.style.transform = `translate(${cursorPos.x}px, ${cursorPos.y}px)`;
       }
       requestAnimationFrame(loop);

@@ -11,6 +11,12 @@
   transform: translateX(-50%);
   top: 0;
   z-index: 9999;
+  transition: backdrop-filter var(--transitionSlow) var(--easeOut), background var(--transitionSlow);
+}
+
+.header.header-scrolled {
+  backdrop-filter: blur(12px);
+  background: rgba(10, 14, 23, 0.7);
 }
 .header ul {
   font-size: 12px;
@@ -29,6 +35,12 @@
   color: #ccc;
   font-weight: 600;
   cursor: pointer;
+  transition: color var(--transitionFast), transform var(--transitionFast);
+}
+
+.header ul li:hover {
+  color: var(--accentColor);
+  transform: scale(1.05);
 }
 .navbar-connect {
   position: absolute;
