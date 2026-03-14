@@ -11,9 +11,7 @@ const App = () => {
       <LoadingProvider>
         <Suspense>
           <MainContainer>
-            <Suspense>
-              <CharacterModel />
-            </Suspense>
+            {/* CharacterModel is replaced by ScrollSequence in Landing */}
           </MainContainer>
         </Suspense>
       </LoadingProvider>
