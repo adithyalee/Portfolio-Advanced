@@ -1,89 +1,100 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./styles/Loading.css";
 import { useLoading } from "../context/LoadingProvider";
 
 import Marquee from "react-fast-marquee";
 
+// iPhone-style: Hola, Bonjour, Chinese, Japanese, Korean, Namaste
+const GREETINGS = [
+  "Hola",
+  "Bonjour",
+  "你好",
+  "こんにちは",
+  "안녕하세요",
+  "Namaste",
+];
+
 const Loading = ({ percent }: { percent: number }) => {
   const { setIsLoading } = useLoading();
-  const [loaded, setLoaded] = useState(false);
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [greetingIndex, setGreetingIndex] = useState(0);
+  const [exiting, setExiting] = useState(false);
+  const percentRef = useRef(percent);
+  percentRef.current = percent;
 
-  if (percent >= 100) {
-    setTimeout(() => {
-      setLoaded(true);
-      setTimeout(() => {
-        setIsLoaded(true);
-      }, 1000);
-    }, 600);
-  }
-
+  // iPhone-style: always cycle through ALL greetings
   useEffect(() => {
-    import("./utils/initialFX").then((module) => {
-      if (isLoaded) {
-        setClicked(true);
-        setTimeout(() => {
-          if (module.initialFX) {
-            module.initialFX();
-          }
-          setIsLoading(false);
-        }, 900);
-      }
-    });
-  }, [isLoaded]);
+    const id = setInterval(() => {
+      setGreetingIndex((i) => {
+        if (percentRef.current >= 100 && i === GREETINGS.length - 1) return i;
+        return i < GREETINGS.length - 1 ? i + 1 : 0;
+      });
+    }, 600);
+    return () => clearInterval(id);
+  }, []);
 
-  function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
-    const { currentTarget: target } = e;
-    const rect = target.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    target.style.setProperty("--mouse-x", `${x}px`);
-    target.style.setProperty("--mouse-y", `${y}px`);
-  }
+  // Open when Namaste + assets loaded (timeout < 900ms so we don't cycle away)
+  useEffect(() => {
+    const isNamaste = greetingIndex === GREETINGS.length - 1;
+    if (!isNamaste || percent < 100) return;
+
+    const id = setTimeout(() => {
+      setExiting(true);
+      setTimeout(() => {
+        import("./utils/initialFX").then((module) => {
+          if (module.initialFX) module.initialFX();
+          setIsLoading(false);
+        });
+      }, 500);
+    }, 700);
+
+    return () => clearTimeout(id);
+  }, [greetingIndex, percent, setIsLoading]);
+
+  // Safety: open after 12s if percent never reaches 100
+  useEffect(() => {
+    if (percent >= 100) return;
+    const id = setTimeout(() => {
+      setExiting(true);
+      setTimeout(() => {
+        import("./utils/initialFX").then((module) => {
+          if (module.initialFX) module.initialFX();
+          setIsLoading(false);
+        });
+      }, 500);
+    }, 12000);
+    return () => clearTimeout(id);
+  }, [percent, setIsLoading]);
+
+  const isNamaste = greetingIndex === GREETINGS.length - 1;
 
   return (
     <>
-      <div className="loading-header">
-        <a href="/#" className="loader-title" data-cursor="disable">
-          RC
-        </a>
-        <div className={`loaderGame ${clicked && "loader-out"}`}>
-          <div className="loaderGame-container">
-            <div className="loaderGame-in">
-              {[...Array(27)].map((_, index) => (
-                <div className="loaderGame-line" key={index}></div>
-              ))}
-            </div>
-            <div className="loaderGame-ball"></div>
-          </div>
-        </div>
+      <div className={`loading-header ${exiting ? "loading-header-out" : ""}`}>
+        <span className="loading-logo">AT</span>
       </div>
-      <div className="loading-screen">
-        <div className="loading-marquee">
-          <Marquee>
-            <span> Full Stack Developer</span> <span>Software Engineer</span>
-            <span> Full Stack Developer</span> <span>Software Engineer</span>
-          </Marquee>
-        </div>
-        <div
-          className={`loading-wrap ${clicked && "loading-clicked"}`}
-          onMouseMove={(e) => handleMouseMove(e)}
-        >
-          <div className="loading-hover"></div>
-          <div className={`loading-button ${loaded && "loading-complete"}`}>
-            <div className="loading-container">
-              <div className="loading-content">
-                <div className="loading-content-in">
-                  Loading <span>{percent}%</span>
-                </div>
+      <div className={`loading-screen ${exiting ? "loading-exit" : ""}`}>
+        <div className="loading-bg" />
+        <div className="loading-content">
+          <div className="loading-greeting-stack">
+            {GREETINGS.map((g, i) => (
+              <div
+                key={g}
+                className={`loading-greeting ${i === greetingIndex ? "active" : ""} ${i === greetingIndex && isNamaste ? "is-namaste" : ""}`}
+              >
+                {g}
               </div>
-              <div className="loading-box"></div>
-            </div>
-            <div className="loading-content2">
-              <span>Welcome</span>
-            </div>
+            ))}
           </div>
+        </div>
+        <div className="loading-marquee">
+          <Marquee speed={26}>
+            {GREETINGS.map((g) => (
+              <span key={g}>{g}</span>
+            ))}
+            {GREETINGS.map((g) => (
+              <span key={`${g}-2`}>{g}</span>
+            ))}
+          </Marquee>
         </div>
       </div>
     </>
