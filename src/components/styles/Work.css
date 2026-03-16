@@ -107,6 +107,29 @@
   font-size: 15px;
 }
 
+.carousel-links {
+  display: flex;
+  gap: 16px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+
+.carousel-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accentColor);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease, opacity 0.2s ease;
+}
+
+.carousel-link:hover {
+  color: var(--accentSecondary);
+  opacity: 0.9;
+}
+
 .carousel-image-wrapper {
   flex: 1;
   display: flex;

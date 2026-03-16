@@ -28,7 +28,7 @@ const Loading = ({ percent }: { percent: number }) => {
         if (percentRef.current >= 100 && i === GREETINGS.length - 1) return i;
         return i < GREETINGS.length - 1 ? i + 1 : 0;
       });
-    }, 600);
+    }, 500);
     return () => clearInterval(id);
   }, []);
 
@@ -45,12 +45,12 @@ const Loading = ({ percent }: { percent: number }) => {
           setIsLoading(false);
         });
       }, 500);
-    }, 700);
+    }, 500);
 
     return () => clearTimeout(id);
   }, [greetingIndex, percent, setIsLoading]);
 
-  // Safety: open after 12s if percent never reaches 100
+  // Open after 5s max
   useEffect(() => {
     if (percent >= 100) return;
     const id = setTimeout(() => {
@@ -60,8 +60,8 @@ const Loading = ({ percent }: { percent: number }) => {
           if (module.initialFX) module.initialFX();
           setIsLoading(false);
         });
-      }, 500);
-    }, 12000);
+      }, 400);
+    }, 5000);
     return () => clearTimeout(id);
   }, [percent, setIsLoading]);
 
@@ -114,12 +114,12 @@ export const setProgress = (setLoading: (value: number) => void) => {
     } else {
       clearInterval(interval);
       interval = setInterval(() => {
-        percent = percent + Math.round(Math.random());
+        percent = percent + Math.round(Math.random() * 2) + 1;
         setLoading(percent);
         if (percent > 91) {
           clearInterval(interval);
         }
-      }, 2000);
+      }, 600);
     }
   }, 100);
 
@@ -139,7 +139,7 @@ export const setProgress = (setLoading: (value: number) => void) => {
           resolve(percent);
           clearInterval(interval);
         }
-      }, 2);
+      }, 1);
     });
   }
   return { loaded, percent, clear };

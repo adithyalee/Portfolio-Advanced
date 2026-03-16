@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import { useRef, useMemo, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Environment } from "@react-three/drei";
 import { EffectComposer, N8AO } from "@react-three/postprocessing";
@@ -10,25 +10,86 @@ import {
   CylinderCollider,
   RapierRigidBody,
 } from "@react-three/rapier";
+import "./styles/TechStack.css";
 
-const textureLoader = new THREE.TextureLoader();
-const imageUrls = [
-  "/images/typescript.webp",
-  "/images/python.webp",
-  "/images/java.webp",
-  "/images/docker.webp",
-  "/images/next2.webp",
-  "/images/node2.webp",
-  "/images/jenkins.webp",
-  "/images/postgresql.webp",
+const CDN = "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons";
+
+const SKILLS: { name: string; icon: string }[] = [
+  { name: "TypeScript", icon: "/images/typescript.webp" },
+  { name: "JavaScript", icon: `${CDN}/javascript/javascript-original.svg` },
+  { name: "Python", icon: "/images/python.webp" },
+  { name: "Java", icon: "/images/java.webp" },
+  { name: "React", icon: `${CDN}/react/react-original.svg` },
+  { name: "Next.js", icon: "/images/next2.webp" },
+  { name: "Node.js", icon: "/images/node2.webp" },
+  { name: "Tailwind", icon: `${CDN}/tailwindcss/tailwindcss-original.svg` },
+  { name: "PostgreSQL", icon: "/images/postgresql.webp" },
+  { name: "MongoDB", icon: `${CDN}/mongodb/mongodb-original.svg` },
+  { name: "Docker", icon: "/images/docker.webp" },
+  { name: "Jenkins", icon: "/images/jenkins.webp" },
+  { name: "Git", icon: `${CDN}/git/git-original.svg` },
+  { name: "GitHub", icon: `${CDN}/github/github-original.svg` },
+  { name: "Express", icon: `${CDN}/express/express-original.svg` },
+  { name: "NestJS", icon: `${CDN}/nestjs/nestjs-original.svg` },
+  { name: "Angular", icon: `${CDN}/angularjs/angularjs-original.svg` },
+  { name: "HTML5", icon: `${CDN}/html5/html5-original.svg` },
+  { name: "CSS3", icon: `${CDN}/css3/css3-original.svg` },
+  { name: "AWS", icon: `${CDN}/amazonwebservices/amazonwebservices-plain-wordmark.svg` },
+  { name: "Azure", icon: `${CDN}/azure/azure-original.svg` },
 ];
-const textures = imageUrls.map((url) => textureLoader.load(url));
 
 const sphereGeometry = new THREE.SphereGeometry(1, 28, 28);
 
-const spheres = [...Array(30)].map(() => ({
-  scale: [0.7, 1, 0.8, 1, 1][Math.floor(Math.random() * 5)],
-}));
+const fallbackMaterial = new THREE.MeshPhysicalMaterial({
+  color: "#ffffff",
+  metalness: 0.1,
+  roughness: 0.9,
+});
+
+function createTextureWithLogo(
+  name: string,
+  iconUrl: string,
+  onDone: (tex: THREE.CanvasTexture) => void
+) {
+  const size = 512;
+  const canvas = document.createElement("canvas");
+  canvas.width = size;
+  canvas.height = size;
+  const ctx = canvas.getContext("2d")!;
+
+  const draw = (img: HTMLImageElement | null) => {
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, size, size);
+
+    const logoSize = 100;
+    const logoY = 180;
+    if (img && img.complete && img.naturalWidth) {
+      ctx.drawImage(img, (size - logoSize) / 2, logoY, logoSize, logoSize);
+    }
+
+    ctx.fillStyle = "#1a1f2e";
+    ctx.font = "bold 36px system-ui, -apple-system, sans-serif";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText(name, size / 2, 320);
+  };
+
+  const img = new Image();
+  img.crossOrigin = "anonymous";
+  img.onload = () => {
+    draw(img);
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.needsUpdate = true;
+    onDone(tex);
+  };
+  img.onerror = () => {
+    draw(null);
+    const tex = new THREE.CanvasTexture(canvas);
+    tex.needsUpdate = true;
+    onDone(tex);
+  };
+  img.src = iconUrl;
+}
 
 type SphereProps = {
   vec?: THREE.Vector3;
@@ -60,7 +121,6 @@ function SphereGeo({
           -50 * delta * scale
         )
       );
-
     api.current?.applyImpulse(impulse, true);
   });
 
@@ -91,14 +151,8 @@ function SphereGeo({
   );
 }
 
-type PointerProps = {
-  vec?: THREE.Vector3;
-  isActive: boolean;
-};
-
-function Pointer({ vec = new THREE.Vector3(), isActive }: PointerProps) {
+function Pointer({ vec = new THREE.Vector3(), isActive }: { vec?: THREE.Vector3; isActive: boolean }) {
   const ref = useRef<RapierRigidBody>(null);
-
   useFrame(({ pointer, viewport }) => {
     if (!isActive) return;
     const targetVec = vec.lerp(
@@ -111,70 +165,73 @@ function Pointer({ vec = new THREE.Vector3(), isActive }: PointerProps) {
     );
     ref.current?.setNextKinematicTranslation(targetVec);
   });
-
   return (
-    <RigidBody
-      position={[100, 100, 100]}
-      type="kinematicPosition"
-      colliders={false}
-      ref={ref}
-    >
+    <RigidBody position={[100, 100, 100]} type="kinematicPosition" colliders={false} ref={ref}>
       <BallCollider args={[2]} />
     </RigidBody>
   );
 }
 
+const spheres = [...Array(SKILLS.length)].map((_, i) => ({
+  scale: [0.7, 1, 0.8, 1, 1][i % 5],
+}));
+
 const TechStack = () => {
   const [isActive, setIsActive] = useState(false);
+  const [materials, setMaterials] = useState<THREE.MeshPhysicalMaterial[]>([]);
+
+  useEffect(() => {
+    const mats: THREE.MeshPhysicalMaterial[] = [];
+    let done = 0;
+
+    SKILLS.forEach(({ name, icon }) => {
+      createTextureWithLogo(name, icon, (tex) => {
+        mats.push(
+          new THREE.MeshPhysicalMaterial({
+            map: tex,
+            color: "#ffffff",
+            metalness: 0.1,
+            roughness: 0.9,
+          })
+        );
+        done++;
+        if (done === SKILLS.length) setMaterials([...mats]);
+      });
+    });
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
+      const work = document.getElementById("work");
+      if (!work) return;
       const scrollY = window.scrollY || document.documentElement.scrollTop;
-      const threshold = document
-        .getElementById("work")!
-        .getBoundingClientRect().top;
-      setIsActive(scrollY > threshold);
+      const threshold = work.getBoundingClientRect().top + scrollY;
+      setIsActive(scrollY > threshold - 200);
     };
     document.querySelectorAll(".header a").forEach((elem) => {
-      const element = elem as HTMLAnchorElement;
-      element.addEventListener("click", () => {
-        const interval = setInterval(() => {
-          handleScroll();
-        }, 10);
-        setTimeout(() => {
-          clearInterval(interval);
-        }, 1000);
+      (elem as HTMLAnchorElement).addEventListener("click", () => {
+        const id = setInterval(handleScroll, 10);
+        setTimeout(() => clearInterval(id), 1000);
       });
     });
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  const materials = useMemo(() => {
-    return textures.map(
-      (texture) =>
-        new THREE.MeshPhysicalMaterial({
-          map: texture,
-          emissive: "#ffffff",
-          emissiveMap: texture,
-          emissiveIntensity: 0.3,
-          metalness: 0.5,
-          roughness: 1,
-          clearcoat: 0.1,
-        })
-    );
-  }, []);
+
+  const allMaterials =
+    materials.length > 0 ? materials : Array(SKILLS.length).fill(fallbackMaterial);
 
   return (
     <div className="techstack">
-      <h2> My Techstack</h2>
-
+      <h2>My Techstack</h2>
       <Canvas
         shadows
-        gl={{ alpha: true, stencil: false, depth: false, antialias: false }}
+        gl={{ alpha: false, stencil: false, depth: false, antialias: false }}
         camera={{ position: [0, 0, 20], fov: 32.5, near: 1, far: 100 }}
-        onCreated={(state) => (state.gl.toneMappingExposure = 1.5)}
+        onCreated={(state) => {
+          state.gl.toneMappingExposure = 1.5;
+          state.gl.setClearColor(0x0a0e17);
+        }}
         className="tech-canvas"
       >
         <ambientLight intensity={1} />
@@ -193,7 +250,7 @@ const TechStack = () => {
             <SphereGeo
               key={i}
               {...props}
-              material={materials[Math.floor(Math.random() * materials.length)]}
+              material={allMaterials[i] || fallbackMaterial}
               isActive={isActive}
             />
           ))}

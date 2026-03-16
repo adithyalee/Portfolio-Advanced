@@ -34,14 +34,14 @@ const Navbar = () => {
         });
       }
     };
-    document.querySelector(".header ul")?.addEventListener("click", handler);
-    return () => document.querySelector(".header ul")?.removeEventListener("click", handler);
+    document.querySelector(".header")?.addEventListener("click", handler);
+    return () => document.querySelector(".header")?.removeEventListener("click", handler);
   }, [lenis]);
 
   return (
     <>
       <div className={`header ${scrolled ? "header-scrolled" : ""}`}>
-        <a href="/#" className="navbar-title" data-cursor="disable">
+        <a href="#landingDiv" data-href="#landingDiv" className="navbar-title" data-cursor="disable">
           AT
         </a>
         <a

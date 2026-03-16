@@ -8,19 +8,24 @@ const projects = [
     title: "AI Video Engine",
     category: "Full-Stack AI Orchestration",
     tools: "Next.js 15, TypeScript, Gemini API, Inngest, Neon DB, Docker",
-    image: "/images/video-engine.png",
+    image: "/images/video-engine.svg",
+    liveUrl: "https://vediomax-ai-video-generator-schedul.vercel.app",
+    githubUrl: "https://github.com/adithyalee/Vediomax-AI-video-generator-scheduler",
   },
   {
     title: "AI UI/UX Mockup Generator",
     category: "Generative SaaS",
     tools: "Next.js, React, Tailwind CSS, Neon DB, Clerk Auth",
-    image: "/images/mockup-gen.png",
+    image: "/images/mockup-gen.svg",
+    liveUrl: undefined,
+    githubUrl: "https://github.com/adithyalee/uiuxmockup",
   },
   {
     title: "Classification Research",
     category: "Machine Learning (Peer-Reviewed)",
     tools: "Python, Scikit-learn, Feature Selection, ML Classification",
-    image: "/images/research.png",
+    image: "/images/research.svg",
+    paperUrl: "https://www.researchgate.net/publication/369407939_Feature_Over_Exemplification-Based_Classification_for_Revelation_of_Hypothyroid",
   },
 ];
 
@@ -100,10 +105,29 @@ const Work = () => {
                           <span className="tools-label">Tools & Features</span>
                           <p>{project.tools}</p>
                         </div>
+                        {(project.liveUrl || project.githubUrl || project.paperUrl) && (
+                          <div className="carousel-links">
+                            {project.liveUrl && (
+                              <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="carousel-link" data-cursor="disable">
+                                Live Demo
+                              </a>
+                            )}
+                            {project.githubUrl && (
+                              <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="carousel-link" data-cursor="disable">
+                                GitHub
+                              </a>
+                            )}
+                            {project.paperUrl && (
+                              <a href={project.paperUrl} target="_blank" rel="noopener noreferrer" className="carousel-link" data-cursor="disable">
+                                View Paper
+                              </a>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <div className="carousel-image-wrapper">
-                      <WorkImage image={project.image} alt={project.title} />
+                      <WorkImage image={project.image} alt={project.title} link={project.liveUrl || project.githubUrl || project.paperUrl} />
                     </div>
                   </div>
                 </div>

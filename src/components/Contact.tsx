@@ -1,7 +1,10 @@
+import { useState } from "react";
 import { MdArrowOutward, MdCopyright } from "react-icons/md";
 import "./styles/Contact.css";
 
 const Contact = () => {
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+
   return (
     <div className="contact-section section-container" id="contact">
       <div className="contact-container">
@@ -16,6 +19,23 @@ const Contact = () => {
             </p>
             <h4>Education</h4>
             <p>MEng in Software Engineering</p>
+          </div>
+          <div className="contact-box contact-form-box">
+            <h4>Get in touch</h4>
+            <form
+              className="contact-form"
+              action="https://formsubmit.co/adithya040@gmail.com"
+              method="POST"
+              onSubmit={() => setStatus("sending")}
+            >
+              <input type="hidden" name="_subject" value="Portfolio contact form" />
+              <input type="text" name="name" placeholder="Your name" required aria-label="Your name" />
+              <input type="email" name="email" placeholder="Your email" required aria-label="Your email" />
+              <textarea name="message" placeholder="Your message" rows={4} required aria-label="Your message" />
+              <button type="submit" className="contact-form-submit" disabled={status === "sending"} data-cursor="disable">
+                {status === "sending" ? "Sending…" : "Send message"}
+              </button>
+            </form>
           </div>
           <div className="contact-box">
             <h4>Social</h4>

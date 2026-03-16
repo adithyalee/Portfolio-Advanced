@@ -140,6 +140,8 @@ body {
   margin: auto;
   margin-top: 50px;
   margin-bottom: -100px;
+  background: #0a0e17;
+  z-index: 2;
 }
 
 .techstack h2 {

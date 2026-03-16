@@ -31,13 +31,19 @@ const ScrollSequence: React.FC = () => {
         };
 
         const handleImageError = () => {
-            console.error("Failed to load an image frame");
-            loaded++; // Still increment to avoid getting stuck
+            loaded++;
             if (loaded === frameCount) {
                 setImages(preloadedImages);
                 progress.loaded();
             }
         };
+
+        const maxWait = setTimeout(() => {
+            if (loaded < frameCount) {
+                setImages(preloadedImages);
+                progress.loaded();
+            }
+        }, 5000);
 
         for (let i = 0; i < frameCount; i++) {
             const img = new Image();
@@ -46,6 +52,8 @@ const ScrollSequence: React.FC = () => {
             img.onerror = handleImageError;
             preloadedImages.push(img);
         }
+
+        return () => clearTimeout(maxWait);
     }, [setLoading]);
 
     useEffect(() => {

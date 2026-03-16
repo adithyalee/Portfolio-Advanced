@@ -1,10 +1,29 @@
 .contact-section {
   margin: auto;
   padding-bottom: 100px;
-  margin-top: 100px;
+  margin-top: 0;
+  padding-top: 80px;
   position: relative;
   z-index: 2;
-  background-color: var(--backgroundColor);
+  background: #0a0e17;
+  background-color: #0a0e17;
+  isolation: isolate;
+}
+
+.contact-section::before {
+  content: "";
+  position: absolute;
+  top: -200px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  height: calc(100% + 300px);
+  background: #0a0e17;
+  z-index: -1;
+}
+
+.contact-container {
+  background: #0a0e17;
 }
 
 .contact-section h3 {
@@ -71,6 +90,70 @@ a.contact-social:hover {
   opacity: 0.5;
 }
 
+/* Contact form */
+.contact-form-box {
+  min-width: 280px;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.contact-form input,
+.contact-form textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-family: inherit;
+  color: var(--textPrimary);
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: var(--textMuted);
+  opacity: 0.7;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--accentColor);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.contact-form-submit {
+  align-self: flex-start;
+  padding: 12px 24px;
+  font-size: 15px;
+  font-weight: 500;
+  background: var(--accentColor);
+  color: var(--backgroundColor);
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease, opacity 0.2s ease;
+}
+
+.contact-form-submit:hover:not(:disabled) {
+  background: var(--accentSecondary);
+}
+
+.contact-form-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 @media only screen and (max-width: 1600px) {
   .contact-section h3 {
     font-size: 50px;
@@ -100,6 +183,18 @@ a.contact-social:hover {
 
   .contact-flex p {
     margin-top: 0px;
+  }
+}
+
+@media only screen and (max-width: 1100px) {
+  .contact-flex {
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+
+  .contact-form-box {
+    width: 100%;
+    max-width: 400px;
   }
 }
 

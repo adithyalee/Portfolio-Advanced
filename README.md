@@ -1,7 +1,16 @@
-# Adithya Portfolio - Overview 🚀
+# Adithya Portfolio 🚀
 
-This repository contains the open source version of my porfolio website.
-Do check it out!
+Personal portfolio website of Adithya Thaninki.
+
+**© 2026 Adithya Thaninki. All Rights Reserved.**  
+This portfolio is for viewing only. Unauthorized copying, cloning, or use is prohibited.
+
+## Setup 📋
+
+- **Resume**: Add your `resume.pdf` to the `public/` folder so the RESUME button works.
+- **Project images**: Replace the placeholder SVGs in `public/images/` with real screenshots (`video-engine.svg`, `mockup-gen.svg`, `research.svg` — or use `.png`/`.webp` and update paths in `Work.tsx`).
+- **Project links**: Update `liveUrl` and `githubUrl` in `src/components/Work.tsx` with your actual project URLs.
+- **Contact form**: Uses [FormSubmit.co](https://formsubmit.co) — you'll receive a confirmation email on first submission to activate.
 
 ## Instructions 🛠️
 
@@ -13,4 +22,4 @@ I have modified the gsap club plugins with the trial plugins, but with the trial
 
 ## License
 
-This project is open source and available under the [MIT License](LICENSE).
+All Rights Reserved. See [LICENSE](LICENSE) for terms.

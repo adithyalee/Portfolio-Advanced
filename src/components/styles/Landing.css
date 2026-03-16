@@ -175,7 +175,7 @@
 
 .landing-intro {
   position: absolute;
-  z-index: 9;
+  z-index: 20;
   top: 12%;
   left: 0;
 }
@@ -195,11 +195,17 @@
   line-height: 28px;
   font-weight: 500;
   font-family: "Geist", sans-serif;
-  background: linear-gradient(135deg, var(--textPrimary) 0%, var(--accentColor) 50%, var(--accentSecondary) 100%);
-  background-clip: text;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
+  color: var(--accentColor);
+}
+
+@supports (background-clip: text) or (-webkit-background-clip: text) {
+  .landing-intro h1 {
+    background: linear-gradient(135deg, var(--textPrimary) 0%, var(--accentColor) 50%, var(--accentSecondary) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
 }
 
 /* .landing-intro h1 span {
@@ -212,7 +218,7 @@
   transform: translateX(50%);
   bottom: 40px;
   top: inherit;
-  z-index: 9;
+  z-index: 20;
 }
 
 .landing-info h3 {
