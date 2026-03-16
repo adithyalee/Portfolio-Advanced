@@ -9,7 +9,7 @@ const projects = [
     category: "Full-Stack AI Orchestration",
     tools: "Next.js 15, TypeScript, Gemini API, Inngest, Neon DB, Docker",
     image: "/images/video-engine.svg",
-    liveUrl: "https://vediomax-ai-video-generator-schedul.vercel.app",
+    liveUrl: undefined,
     githubUrl: "https://github.com/adithyalee/Vediomax-AI-video-generator-scheduler",
   },
   {
