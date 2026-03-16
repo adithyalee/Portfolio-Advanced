@@ -1,3 +1,25 @@
 .techstack .tech-canvas {
   height: 100%;
+  min-height: 400px;
+}
+
+.techstack-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+}
+
+.techstack-spinner {
+  width: 48px;
+  height: 48px;
+  border: 3px solid rgba(94, 234, 212, 0.2);
+  border-top-color: var(--accentColor);
+  border-radius: 50%;
+  animation: techstack-spin 0.8s linear infinite;
+}
+
+@keyframes techstack-spin {
+  to { transform: rotate(360deg); }
 }

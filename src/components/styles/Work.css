@@ -11,6 +11,19 @@
   font-weight: 500;
   margin-top: 0;
   margin-bottom: 50px;
+  position: relative;
+  display: inline-block;
+}
+
+.work-section h2::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 0;
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, var(--accentColor), var(--accentSecondary));
+  border-radius: 2px;
 }
 
 .work-section h2>span {
@@ -30,8 +43,10 @@
 .carousel-track-container {
   overflow: hidden;
   width: 100%;
-  border-top: 1px solid #363636;
-  border-bottom: 1px solid #363636;
+  border-top: 1px solid rgba(94, 234, 212, 0.15);
+  border-bottom: 1px solid rgba(94, 234, 212, 0.15);
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(94, 234, 212, 0.02) 0%, transparent 50%);
 }
 
 .carousel-track {
@@ -122,12 +137,18 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  transition: color 0.2s ease, opacity 0.2s ease;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(94, 234, 212, 0.3);
+  background: rgba(94, 234, 212, 0.05);
+  transition: all 0.3s ease;
 }
 
 .carousel-link:hover {
-  color: var(--accentSecondary);
-  opacity: 0.9;
+  color: var(--backgroundColor);
+  background: var(--accentColor);
+  border-color: var(--accentColor);
+  box-shadow: 0 0 20px rgba(94, 234, 212, 0.3);
 }
 
 .carousel-image-wrapper {

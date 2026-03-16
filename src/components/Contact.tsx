@@ -1,9 +1,14 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { MdArrowOutward, MdCopyright } from "react-icons/md";
 import "./styles/Contact.css";
 
 const Contact = () => {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const [redirectUrl, setRedirectUrl] = useState("");
+
+  useEffect(() => {
+    setRedirectUrl(typeof window !== "undefined" ? `${window.location.origin}/#contact` : "");
+  }, []);
 
   return (
     <div className="contact-section section-container" id="contact">
@@ -29,6 +34,7 @@ const Contact = () => {
               onSubmit={() => setStatus("sending")}
             >
               <input type="hidden" name="_subject" value="Portfolio contact form" />
+              {redirectUrl && <input type="hidden" name="_next" value={redirectUrl} />}
               <input type="text" name="name" placeholder="Your name" required aria-label="Your name" />
               <input type="email" name="email" placeholder="Your email" required aria-label="Your email" />
               <textarea name="message" placeholder="Your message" rows={4} required aria-label="Your message" />

@@ -25,7 +25,8 @@ const projects = [
     category: "Machine Learning (Peer-Reviewed)",
     tools: "Python, Scikit-learn, Feature Selection, ML Classification",
     image: "/images/research.svg",
-    paperUrl: "https://www.researchgate.net/publication/369407939_Feature_Over_Exemplification-Based_Classification_for_Revelation_of_Hypothyroid",
+    paperUrl: "/files/FeatureHypothyroid_MSD.pdf",
+    researchGateUrl: "https://www.researchgate.net/publication/369407939_Feature_Over_Exemplification-Based_Classification_for_Revelation_of_Hypothyroid",
   },
 ];
 
@@ -105,7 +106,7 @@ const Work = () => {
                           <span className="tools-label">Tools & Features</span>
                           <p>{project.tools}</p>
                         </div>
-                        {(project.liveUrl || project.githubUrl || project.paperUrl) && (
+                        {(project.liveUrl || project.githubUrl || project.paperUrl || project.researchGateUrl) && (
                           <div className="carousel-links">
                             {project.liveUrl && (
                               <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="carousel-link" data-cursor="disable">
@@ -119,7 +120,12 @@ const Work = () => {
                             )}
                             {project.paperUrl && (
                               <a href={project.paperUrl} target="_blank" rel="noopener noreferrer" className="carousel-link" data-cursor="disable">
-                                View Paper
+                                View PDF
+                              </a>
+                            )}
+                            {project.researchGateUrl && (
+                              <a href={project.researchGateUrl} target="_blank" rel="noopener noreferrer" className="carousel-link" data-cursor="disable">
+                                ResearchGate
                               </a>
                             )}
                           </div>
@@ -127,7 +133,7 @@ const Work = () => {
                       </div>
                     </div>
                     <div className="carousel-image-wrapper">
-                      <WorkImage image={project.image} alt={project.title} link={project.liveUrl || project.githubUrl || project.paperUrl} />
+                      <WorkImage image={project.image} alt={project.title} link={project.liveUrl || project.githubUrl || project.paperUrl || project.researchGateUrl} />
                     </div>
                   </div>
                 </div>

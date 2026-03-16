@@ -15,16 +15,39 @@ interface LoadingType {
 
 export const LoadingContext = createContext<LoadingType | null>(null);
 
+const SESSION_KEY = "portfolio_intro_seen";
+
 export const LoadingProvider = ({ children }: PropsWithChildren) => {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(() => {
+    try {
+      return sessionStorage.getItem(SESSION_KEY) !== "true";
+    } catch {
+      return true;
+    }
+  });
   const [loading, setLoading] = useState(0);
+
+  const setIsLoadingWithSession = (state: boolean) => {
+    if (!state) {
+      try {
+        sessionStorage.setItem(SESSION_KEY, "true");
+      } catch {}
+    }
+    setIsLoading(state);
+  };
 
   const value = {
     isLoading,
-    setIsLoading,
+    setIsLoading: setIsLoadingWithSession,
     setLoading,
   };
   useEffect(() => {}, [loading]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      import("../components/utils/initialFX").then((m) => m.initialFX?.());
+    }
+  }, [isLoading]);
 
   return (
     <LoadingContext.Provider value={value as LoadingType}>

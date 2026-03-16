@@ -1,7 +1,18 @@
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState, useEffect } from "react";
 import "./styles/Landing.css";
 
+const ROLES = ["Full Stack", "DevOps", "Cloud", "AI/ML", "Systems Engineer"];
+
 const Landing = ({ children }: PropsWithChildren) => {
+  const [roleIndex, setRoleIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setRoleIndex((i) => (i + 1) % ROLES.length);
+    }, 2500);
+    return () => clearInterval(id);
+  }, []);
+
   return (
     <>
       <div className="landing-section" id="landingDiv">
@@ -15,15 +26,12 @@ const Landing = ({ children }: PropsWithChildren) => {
             </h1>
           </div>
           <div className="landing-info">
-            <h3>A Full Stack</h3>
-            <h2 className="landing-info-h2">
-              <div className="landing-h2-1">Developer</div>
-              <div className="landing-h2-2">Engineer</div>
-            </h2>
-            <h2>
-              <div className="landing-h2-info">Engineer</div>
-              <div className="landing-h2-info-1">Developer</div>
-            </h2>
+            <h3>A Software Engineer</h3>
+            <div className="landing-rotating-wrap">
+              <span className="landing-rotating" key={roleIndex}>
+                {ROLES[roleIndex]}
+              </span>
+            </div>
           </div>
         </div>
         {children}

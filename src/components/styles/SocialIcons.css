@@ -63,7 +63,8 @@
   transform: translateX(100%) rotateZ(-90deg);
 }
 .resume-button:hover {
-  color: #fff;
+  color: var(--accentColor);
+  text-shadow: 0 0 20px rgba(94, 234, 212, 0.5);
 }
 div.resume-button span {
   color: #fff;

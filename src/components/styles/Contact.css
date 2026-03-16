@@ -134,19 +134,22 @@ a.contact-social:hover {
 
 .contact-form-submit {
   align-self: flex-start;
-  padding: 12px 24px;
+  padding: 14px 28px;
   font-size: 15px;
-  font-weight: 500;
-  background: var(--accentColor);
+  font-weight: 600;
+  background: linear-gradient(135deg, var(--accentColor), var(--accentSecondary));
   color: var(--backgroundColor);
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.2s ease, opacity 0.2s ease;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(94, 234, 212, 0.25);
+  letter-spacing: 0.5px;
 }
 
 .contact-form-submit:hover:not(:disabled) {
-  background: var(--accentSecondary);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 25px rgba(94, 234, 212, 0.4);
 }
 
 .contact-form-submit:disabled {

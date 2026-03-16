@@ -39,12 +39,7 @@ const Loading = ({ percent }: { percent: number }) => {
 
     const id = setTimeout(() => {
       setExiting(true);
-      setTimeout(() => {
-        import("./utils/initialFX").then((module) => {
-          if (module.initialFX) module.initialFX();
-          setIsLoading(false);
-        });
-      }, 500);
+      setTimeout(() => setIsLoading(false), 500);
     }, 500);
 
     return () => clearTimeout(id);
@@ -55,12 +50,7 @@ const Loading = ({ percent }: { percent: number }) => {
     if (percent >= 100) return;
     const id = setTimeout(() => {
       setExiting(true);
-      setTimeout(() => {
-        import("./utils/initialFX").then((module) => {
-          if (module.initialFX) module.initialFX();
-          setIsLoading(false);
-        });
-      }, 400);
+      setTimeout(() => setIsLoading(false), 400);
     }, 5000);
     return () => clearTimeout(id);
   }, [percent, setIsLoading]);
